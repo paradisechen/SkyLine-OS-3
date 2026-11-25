@@ -1,0 +1,1219 @@
+// gameOS theme
+// Copyright (C) 2018-2020 Seth Powell 
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+// This file contains some helper scripts for formatting data
+
+
+// For multiplayer games, show the player count as '1-N'
+function formatPlayers(playerCount) {
+  if (playerCount === 1)
+    return playerCount
+
+  return "1-" + playerCount;
+}
+
+
+// Show dates in Y-M-D format
+function formatDate(date) {
+  return Qt.formatDate(date, "yyyy-MM-dd");
+}
+
+
+// Show last played time as text. Based on the code of the default Pegasus theme.
+// Note to self: I should probably move this into the API.
+function formatLastPlayed(lastPlayed) {
+  if (isNaN(lastPlayed))
+    return "never";
+
+  var now = new Date();
+
+  var elapsedHours = (now.getTime() - lastPlayed.getTime()) / 1000 / 60 / 60;
+  if (elapsedHours < 24 && now.getDate() === lastPlayed.getDate())
+    return "today";
+
+  var elapsedDays = Math.round(elapsedHours / 24);
+  if (elapsedDays <= 1)
+    return "yesterday";
+
+  return elapsedDays + " days ago"
+}
+
+
+// Display the play time (provided in seconds) with text.
+// Based on the code of the default Pegasus theme.
+// Note to self: I should probably move this into the API.
+function formatPlayTime(playTime) {
+  var minutes = Math.ceil(playTime / 60)
+  if (minutes <= 90)
+    return Math.round(minutes) + " minutes";
+
+  return parseFloat((minutes / 60).toFixed(1)) + " hours"
+}
+
+// Process the platform name to make it friendly for the logo
+// Unfortunately necessary for LaunchBox
+function processPlatformName(platform) {
+  switch (platform) {
+    case "pc":
+    case "windows":
+    case "roms/pc":
+    case "pc (windows)":
+      return "pc";
+    case "panasonic 3do":
+      return "3do";
+      break;
+    case "3do interactive multiplayer":
+      return "3do";
+      break;
+    case "amstrad cpc":
+      return "amstradcpc";
+      break;
+    case "apple ii":
+      return "apple2";
+      break;
+    case "atari 800":
+      return "atari800";
+      break;
+    case "atari 2600":
+      return "atari2600";
+      break;
+    case "atari 5200":
+      return "atari5200";
+      break;
+    case "atari 7800":
+      return "atari7800";
+      break;
+    case "atari jaguar":
+      return "atarijaguar";
+      break;
+    case "atari jaguar cd":
+      return "atarijaguarcd";
+      break;
+    case "atari lynx":
+      return "atarilynx";
+      break;
+    case "atari st":
+      return "atarist";
+      break;
+    case "commodore 64":
+      return "c64";
+      break;
+    case "tandy trs-80":
+      return "coco";
+      break;
+    case "commodore amiga":
+      return "amiga";
+      break;
+    case "sega dreamcast":
+      return "dreamcast";
+      break;
+    case "final burn alpha":
+      return "fba";
+      break;
+    case "sega game gear":
+      return "gamegear";
+      break;
+    case "nintendo game boy":
+      return "gb";
+      break;
+    case "nintendo game boy advance":
+      return "gba";
+      break;
+    case "nintendo game boy color":
+      return "gbc";
+      break;
+    case "nintendo gamecube":
+      return "gc";
+      break;
+    case "sega genesis":
+      return "genesis";
+      break;
+    case "mattel intellivision":
+      return "intellivision";
+      break;
+    case "sammy atomiswave":
+      return "atomiswave";
+      break;
+    case "sega master system":
+      return "mastersystem";
+      break;
+    case "sega mega drive":
+      return "megadrive";
+      break;
+    case "sega genesis":
+      return "genesis";
+      break;
+    case "microsoft msx":
+      return "msx";
+      break;
+    case "nintendo 64":
+      return "n64";
+      break;
+    case "nintendo ds":
+      return "nds";
+      break;
+    case "snk neo geo aes":
+      return "neogeo";
+      break;
+    case "snk neo geo mvs":
+      return "neogeo";
+      break;
+    case "snk neo geo cd":
+      return "neogeocd";
+      break;
+    case "nintendo 64":
+      return "segacd";
+      break;
+    case "nintendo entertainment system":
+      return "nes";
+      break;
+    case "snk neo geo pocket":
+      return "ngp";
+      break;
+    case "snk neo geo pocket color":
+      return "ngpc";
+      break;
+    case "sega cd":
+      return "segacd";
+      break;
+    case "nec turbografx-16":
+      return "turbografx16";
+      break;
+    case "sony psp":
+      return "psp";
+      break;
+    case "sony playstation":
+      return "psx";
+      break;
+    case "sony playstation 2":
+      return "ps2";
+      break;
+    case "sony playstation 3":
+      return "ps3";
+      break;
+    case "sony playstation vita":
+      return "vita";
+      break;
+    case "sega saturn":
+      return "saturn";
+      break;
+    case "sega 32x":
+      return "sega32x";
+      break;
+    case "super nintendo entertainment system":
+      return "snes";
+      break;
+    case "sega cd":
+      return "segacd";
+      break;
+    case "nintendo wii":
+      return "wii";
+      break;
+    case "nintendo wii u":
+      return "wiiu";
+      break;
+    case "nintendo 3ds":
+      return "3ds";
+      break;
+    case "microsoft xbox":
+      return "xbox";
+      break;
+    case "microsoft xbox 360":
+      return "xbox360";
+      break;
+    case "nintendo switch":
+      return "switch";
+      break;
+    default:
+      return platform;
+  }
+}
+
+function processButtonArt(button) {
+  var buttonModel;
+  switch (button) {
+    case "accept":
+      buttonModel = api.keys.accept;
+      break;
+    case "cancel":
+      buttonModel = api.keys.cancel;
+      break;
+    case "filters":
+      buttonModel = api.keys.filters;
+      break;
+    case "details":
+      buttonModel = api.keys.details;
+      break;
+    case "nextPage":
+      buttonModel = api.keys.nextPage;
+      break;
+    case "prevPage":
+      buttonModel = api.keys.prevPage;
+      break;
+    case "pageUp":
+      buttonModel = api.keys.pageUp;
+      break;
+    case "pageDown":
+      buttonModel = api.keys.pageDown;
+      break;
+    default:
+      buttonModel = api.keys.accept;
+  }
+
+  if (!buttonModel || !buttonModel.length) return "";
+  var i;
+  for (i = 0; i < buttonModel.length; i++) {
+    if (buttonModel[i] && String(buttonModel[i].name()).indexOf("Gamepad") >= 0) {
+      var buttonValue = buttonModel[i].key.toString(16);
+      return buttonValue.substring(buttonValue.length - 1, buttonValue.length);
+    }
+  }
+  return "";
+}
+
+function steamAppID(gameData) {
+  var bf = (gameData && gameData.assets && gameData.assets.boxFront) ? String(gameData.assets.boxFront) : "";
+  var str = bf.split("header");
+  return str[0];
+}
+
+function steamBoxArt(gameData) {
+  return steamAppID(gameData) + '/library_600x900_2x.jpg';
+}
+
+function steamLogo(gameData) {
+  return steamAppID(gameData) + "/logo.png";
+}
+
+function steamHero(gameData) {
+  return steamAppID(gameData) + "/library_hero.jpg";
+}
+
+// Just use boxFront?
+function steamHeader(gameData) {
+  return steamAppID(gameData) + "/header.jpg";
+}
+
+function boxArt(data) {
+  if (data != null && data.assets) {
+    var bf = String(data.assets.boxFront || "");
+    if (bf.indexOf("/header.jpg") >= 0)
+      return steamBoxArt(data);
+    else {
+      if (bf != "")
+        return data.assets.boxFront;
+      else if (data.assets.poster != "")
+        return data.assets.poster;
+      else if (data.assets.banner != "")
+        return data.assets.banner;
+      else if (data.assets.tile != "")
+        return data.assets.tile;
+      else if (data.assets.cartridge != "")
+        return data.assets.cartridge;
+      else if (data.assets.logo != "")
+        return data.assets.logo;
+    }
+  }
+  return "";
+}
+
+function logo(data) {
+  if (data != null && data.assets) {
+    var bf = String(data.assets.boxFront || "");
+    if (bf.indexOf("/header.jpg") >= 0)
+      return steamLogo(data);
+    else {
+      if (data.assets.logo != "")
+        return data.assets.logo;
+    }
+  }
+  return "";
+}
+
+function fanArt(data) {
+  if (data != null && data.assets) {
+    var bf = String(data.assets.boxFront || "");
+    if (bf.indexOf("/header.jpg") >= 0)
+      return steamHero(data);
+    else {
+      if (data.assets.background != "")
+        return data.assets.background;
+      else if (data.assets.screenshots && data.assets.screenshots[0])
+        return data.assets.screenshots[0];
+    }
+  }
+  return "";
+}
+
+// Place Steam collections at the beginning of the list
+function reorderCollection(model) {
+  for (var i = 0; i < model.count; i++) {
+    if (model.get(i).name == "Steam") {
+      model.move(i, 0);
+      return model;
+    }
+  }
+  //model.insert(0,{ "name":"All Games","sortBy":"All Games","shortName":"allgames","summary":"","description":"","games":null,"assets":null })
+  return model;
+}
+
+
+// Shuffle function
+function shuffle(model) {
+  var currentIndex = model.count, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex -= 1
+    // And swap it with the current element.
+    // the dictionaries maintain their reference so a copy should be made
+    // https://stackoverflow.com/a/36645492/6622587
+    temporaryValue = JSON.parse(JSON.stringify(model.get(currentIndex)))
+    model.set(currentIndex, model.get(randomIndex))
+    model.set(randomIndex, temporaryValue);
+  }
+
+  return model;
+}
+
+function uniqueGameValues(fieldName) {
+  var seen = {};
+  var out = [];
+  var allGames = api.allGames.toVarArray();
+  for (var i = 0; i < allGames.length; i++) {
+    var vals = allGames[i][fieldName];
+    if (!vals) continue;
+    for (var j = 0; j < vals.length; j++) {
+      var v = vals[j];
+      var key = String(v);
+      if (!seen[key]) {
+        seen[key] = true;
+        out.push(v);
+      }
+    }
+  }
+  return out.sort();
+}
+
+function uniqueValuesArray(fieldName) {
+  var arr = [];
+  var allGames = api.allGames.toVarArray();
+  for (var i = 0; i < allGames.length; i++) {
+    arr.push(allGames[i][fieldName]);
+  }
+  return arr;
+}
+
+function shuffleArray(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+function returnRandom(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+// Loading RA data
+function loadRAData() {
+  var username = api.memory.get("RA_Username");
+  var apiKey = api.memory.get("RetroAchievements API Key");
+
+  if (!username || !apiKey)
+    return;
+
+  // User summary
+  var xhrUser = new XMLHttpRequest();
+  xhrUser.onreadystatechange = function () {
+    if (xhrUser.readyState === XMLHttpRequest.DONE && xhrUser.status === 200) {
+      try {
+        var data = JSON.parse(xhrUser.responseText);
+        raPointsText.text = (data.TotalPoints || "0") + " pts";
+        raRankText.text = "Rank " + (data.Rank || "—");
+        raRatioText.text = "Ratio " + (data.TotalTruePoints && data.TotalPoints ? (data.TotalTruePoints / Math.max(data.TotalPoints, 1)).toFixed(2) : "—");
+        if (data.RecentlyPlayed && data.RecentlyPlayed.length > 0)
+          raLastGameText.text = "Last played: " + data.RecentlyPlayed[0].Title;
+      } catch (e) { }
+    }
+  };
+  xhrUser.open("GET", "https://retroachievements.org/API/API_GetUserSummary.php?z=" + username + "&y=" + apiKey + "&u=" + username + "&g=1&a=5");
+  xhrUser.send();
+
+  raFriendsModel.clear();
+  var xhrGames = new XMLHttpRequest();
+  xhrGames.onreadystatechange = function () {
+    if (xhrGames.readyState === XMLHttpRequest.DONE && xhrGames.status === 200) {
+      try {
+        var games = JSON.parse(xhrGames.responseText);
+        for (var i = 0; i < games.length; i++) {
+          var g = games[i];
+          var total = g.AchievementsTotal || g.NumPossibleAchievements || 0;
+          var earned = g.NumAchievedHardcore || g.NumAchieved || 0;
+          raFriendsModel.append({
+            title: g.Title || "",
+            imageUrl: "https://retroachievements.org" + (g.ImageIcon || ""),
+            earned: earned,
+            total: total,
+            percent: total > 0 ? Math.round(earned / total * 100) : 0,
+            lastPlayed: g.LastPlayed ? Qt.formatDate(new Date(g.LastPlayed), "dd MMM yyyy") : "",
+            gameId: g.GameID || 0
+          });
+          if (g.Title)
+            api.memory.set("RA_GameID::" + g.Title, String(g.GameID || 0));
+        }
+      } catch (e) { }
+    }
+  };
+  xhrGames.open("GET", "https://retroachievements.org/API/API_GetUserRecentlyPlayedGames.php?z=" + username + "&y=" + apiKey + "&u=" + username + "&c=10");
+  xhrGames.send();
+}
+
+function loadGameAchievements(gameId, targetModel, onDone) {
+  var username = api.memory.get("RA_Username");
+  var apiKey = api.memory.get("RetroAchievements API Key");
+  targetModel.clear();
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status === 200) {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        var achievements = data.Achievements;
+        if (!achievements) {
+          if (onDone) onDone(false);
+          return;
+        }
+        for (var key in achievements) {
+          var a = achievements[key];
+          targetModel.append({
+            title: a.Title || "",
+            description: a.Description || "",
+            points: a.Points || 0,
+            badgeUrl: "https://media.retroachievements.org/Badge/" + (a.DateEarned ? a.BadgeName : a.BadgeName + "_lock") + ".png",
+            earned: a.DateEarned ? true : false,
+            dateEarned: a.DateEarned ? Qt.formatDate(new Date(a.DateEarned), "dd MMM yyyy") : ""
+          });
+        }
+        if (onDone) onDone(true);
+      } catch (e) {
+        console.log("Achievement parse error:", e);
+        if (onDone) onDone(false);
+      }
+    } else {
+      if (onDone) onDone(false);
+    }
+  };
+  xhr.open("GET", "https://retroachievements.org/API/API_GetGameInfoAndUserProgress.php?g=" + gameId + "&u=" + username + "&y=" + apiKey);
+  xhr.send();
+}
+
+function fetchRaProgress(gameId, callback) {
+  var username = api.memory.get("RA_Username");
+  var apiKey = api.memory.get("RetroAchievements API Key");
+
+  if (!username || !apiKey || !gameId) { callback(0); return; }
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status !== 200) { callback(0); return; }
+    try {
+      var data = JSON.parse(xhr.responseText);
+      var achievements = data.Achievements;
+      if (!achievements) { callback(0); return; }
+
+      var total = 0, earned = 0;
+      for (var key in achievements) {
+        total++;
+        if (achievements[key].DateEarned)
+          earned++;
+      }
+
+      if (total === 0) { callback(0); return; }
+      callback(Math.round((earned / total) * 100));
+    } catch (e) {
+      console.log("RA progress parse error:", e);
+      callback(0);
+    }
+  };
+  xhr.open("GET", "https://retroachievements.org/API/API_GetGameInfoAndUserProgress.php?g=" + gameId + "&u=" + username + "&y=" + apiKey);
+  xhr.send();
+}
+
+// === SteamGridDB scraping (background) ===
+var SGDB_BASE = "https://www.steamgriddb.com/api/v2";
+
+function sgdbSearchGame(title, callback) {
+  var key = api.memory.get("SteamGridDB API Key");
+  if (!key) { callback(null); return; }
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status !== 200) { callback(null); return; }
+    try {
+      var data = JSON.parse(xhr.responseText);
+      if (data.success && data.data && data.data.length > 0)
+        callback(data.data[0].id);
+      else
+        callback(null);
+    } catch (e) { callback(null); }
+  };
+  xhr.open("GET", SGDB_BASE + "/search/autocomplete/" + encodeURIComponent(title));
+  xhr.setRequestHeader("Authorization", "Bearer " + key);
+  xhr.send();
+}
+
+function sgdbGetHero(gameId, callback) {
+  var key = api.memory.get("SteamGridDB API Key");
+  if (!key) { callback(null); return; }
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status !== 200) { callback(null); return; }
+    try {
+      var data = JSON.parse(xhr.responseText);
+      if (data.success && data.data && data.data.length > 0)
+        callback(data.data[0].url);
+      else
+        callback(null);
+    } catch (e) { callback(null); }
+  };
+  xhr.open("GET", SGDB_BASE + "/heroes/game/" + gameId);
+  xhr.setRequestHeader("Authorization", "Bearer " + key);
+  xhr.send();
+}
+
+// Recupera TUTTE le hero image disponibili per un gameId (non solo la prima)
+function sgdbGetHeroes(gameId, callback) {
+  var key = api.memory.get("SteamGridDB API Key");
+  if (!key) { callback([]); return; }
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status !== 200) { callback([]); return; }
+    try {
+      var data = JSON.parse(xhr.responseText);
+      if (data.success && data.data && data.data.length > 0) {
+        var urls = [];
+        for (var i = 0; i < data.data.length; i++)
+          urls.push(data.data[i].url);
+        callback(urls);
+      } else {
+        callback([]);
+      }
+    } catch (e) { callback([]); }
+  };
+  xhr.open("GET", SGDB_BASE + "/heroes/game/" + gameId);
+  xhr.setRequestHeader("Authorization", "Bearer " + key);
+  xhr.send();
+}
+
+function fetchScrapedBackgroundList(title, callback) {
+  if (!title) { callback([]); return; }
+  if (!api.memory.get("SteamGridDB API Key")) { callback(""); return; }
+  sgdbSearchGame(title, function (gameId) {
+    if (!gameId) { callback([]); return; }
+    sgdbGetHeroes(gameId, function (urls) {
+      callback(urls);
+    });
+  });
+}
+
+function fetchScrapedBackground(title, callback) {
+  if (!title) { callback(""); return; }
+
+  var cacheKey = "SGDB_BG::" + title;
+  if (api.memory.has(cacheKey)) {
+    callback(api.memory.get(cacheKey));
+    return;
+  }
+
+  sgdbSearchGame(title, function (gameId) {
+    if (!gameId) {
+      api.memory.set(cacheKey, "");
+      callback("");
+      return;
+    }
+    sgdbGetHero(gameId, function (url) {
+      var result = url || "";
+      api.memory.set(cacheKey, result);
+      callback(result);
+    });
+  });
+}
+
+var ITALIAN_MONTHS = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+  "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
+
+function formatDateItalian(dateInput) {
+  var d = (dateInput instanceof Date) ? dateInput : new Date(dateInput);
+  if (isNaN(d.getTime()))
+    return "";
+  return d.getDate() + " " + ITALIAN_MONTHS[d.getMonth()] + " " + d.getFullYear();
+}
+
+function raLookupGameId(title) {
+  if (!title)
+    return 0;
+  var key = "RA_GameID::" + title;
+  return api.memory.has(key) ? parseInt(api.memory.get(key)) : 0;
+}
+
+//For RAWG
+
+var _rawgCache = { title: null, data: null, pending: false, callbacks: [] };
+
+function _rawgCleanTitle(title) {
+  return title.replace(/\s*[\(\[][^\)\]]*[\)\]]/g, "").trim();
+}
+
+function formatCompactNumber(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + "M";
+  if (n >= 1000) return (n / 1000).toFixed(1) + "K";
+  return String(n);
+}
+
+function fetchRawgData(title, callback) {
+  if (!title) { callback(null); return; }
+
+  // Cache/dedupe in-memoria per la sessione corrente (nessuna scrittura su disco)
+  if (_rawgCache.title === title) {
+    if (_rawgCache.pending) {
+      _rawgCache.callbacks.push(callback);
+      return;
+    }
+    callback(_rawgCache.data);
+    return;
+  }
+
+  var apiKey = api.memory.get("RAWG API Key");
+  if (!apiKey) {
+    console.log("RAWG: 'RAWG API Key' non impostata in api.memory");
+    callback(null);
+    return;
+  }
+
+  _rawgCache.title = title;
+  _rawgCache.pending = true;
+  _rawgCache.callbacks = [callback];
+
+  function resolveAll(result) {
+    _rawgCache.pending = false;
+    _rawgCache.data = result;
+    var cbs = _rawgCache.callbacks;
+    _rawgCache.callbacks = [];
+    for (var i = 0; i < cbs.length; i++)
+      cbs[i](result);
+  }
+
+  var cleanTitle = _rawgCleanTitle(title);
+
+  var searchXhr = new XMLHttpRequest();
+  searchXhr.onreadystatechange = function () {
+    if (searchXhr.readyState !== XMLHttpRequest.DONE) return;
+    if (searchXhr.status !== 200) {
+      console.log("RAWG search HTTP error:", searchXhr.status);
+      resolveAll(null);
+      return;
+    }
+    try {
+      var searchData = JSON.parse(searchXhr.responseText);
+      if (!searchData.results || searchData.results.length === 0) {
+        resolveAll(null);
+        return;
+      }
+
+      var gameId = searchData.results[0].id;
+
+      var detailXhr = new XMLHttpRequest();
+      detailXhr.onreadystatechange = function () {
+        if (detailXhr.readyState !== XMLHttpRequest.DONE) return;
+        if (detailXhr.status !== 200) {
+          console.log("RAWG detail HTTP error:", detailXhr.status);
+          resolveAll(null);
+          return;
+        }
+        try {
+          var g = JSON.parse(detailXhr.responseText);
+
+          var tags = (g.tags || []).map(function (t) { return t.name; });
+
+          resolveAll({
+            title: g.name || title,
+            playtime: g.playtime > 0 ? g.playtime : 0,
+            added: g.added > 0 ? g.added : 0,
+            achievementsCount: g.achievements_count > 0 ? g.achievements_count : 0,
+            developers: (g.developers || []).map(function (d) { return d.name; }),
+            genres: (g.genres || []).map(function (gn) { return gn.name; }),
+            released: g.released || "",
+            tags: tags
+            // Euristica opzionale per "players" (NON un dato reale RAWG, disattivata):
+            // playersGuess: tags.indexOf("Multiplayer") !== -1 ? 2 : (tags.indexOf("Singleplayer") !== -1 ? 1 : 0)
+          });
+        } catch (e) {
+          console.log("RAWG detail parse error:", e);
+          resolveAll(null);
+        }
+      };
+      detailXhr.open("GET", "https://api.rawg.io/api/games/" + gameId + "?key=" + apiKey);
+      detailXhr.send();
+    } catch (e) {
+      console.log("RAWG search parse error:", e);
+      resolveAll(null);
+    }
+  };
+  searchXhr.open("GET", "https://api.rawg.io/api/games?search=" + encodeURIComponent(cleanTitle) + "&key=" + apiKey);
+  searchXhr.send();
+}
+
+// Estrae i colori dominanti da un ImageData (Canvas.getImageData)
+function extractDominantColors(imageData, count) {
+  var data = imageData.data;
+  var buckets = {};
+
+  for (var i = 0; i < data.length; i += 4) {
+    var r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+    if (a < 200) continue;
+
+    var lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    if (lum < 0.12 || lum > 0.92) continue; // scarta pixel troppo scuri/chiari
+
+    var key = (r >> 4) + "_" + (g >> 4) + "_" + (b >> 4); // quantizza a 4 bit/canale
+    if (!buckets[key])
+      buckets[key] = { count: 0, r: 0, g: 0, b: 0 };
+    buckets[key].count++;
+    buckets[key].r += r;
+    buckets[key].g += g;
+    buckets[key].b += b;
+  }
+
+  var sorted = Object.keys(buckets).map(function (key) {
+    var b = buckets[key];
+    return {
+      count: b.count,
+      r: Math.round(b.r / b.count),
+      g: Math.round(b.g / b.count),
+      b: Math.round(b.b / b.count)
+    };
+  }).sort(function (a, b) { return b.count - a.count; });
+
+  var result = [];
+  var minDistance = 60;
+
+  for (var j = 0; j < sorted.length && result.length < count; j++) {
+    var candidate = sorted[j];
+    var tooClose = false;
+    for (var k = 0; k < result.length; k++) {
+      var dr = candidate.r - result[k].r;
+      var dg = candidate.g - result[k].g;
+      var db = candidate.b - result[k].b;
+      if (Math.sqrt(dr * dr + dg * dg + db * db) < minDistance) {
+        tooClose = true;
+        break;
+      }
+    }
+    if (!tooClose)
+      result.push(candidate);
+  }
+
+  while (result.length < count && sorted.length > 0)
+    result.push(sorted[result.length % sorted.length]);
+
+  return result.map(function (c) {
+    return "#" + [c.r, c.g, c.b].map(function (v) {
+      var h = v.toString(16);
+      return h.length === 1 ? "0" + h : h;
+    }).join("");
+  });
+}
+
+function colorWithAlpha(hex, alphaByte) {
+  return "#" + alphaByte + hex.substring(1);
+}
+
+//For Exophase
+
+var _exophaseGamesCache = null;
+var _exophaseGamesPending = false;
+var _exophaseGamesCallbacks = [];
+
+function _exophaseCleanTitle(title) {
+  return title.replace(/\s*[\(\[][^\)\]]*[\)\]]/g, "").trim().toLowerCase();
+}
+
+function fetchExophaseGamesList(playerId, callback) {
+  if (!playerId) { callback(null); return; }
+
+  if (_exophaseGamesCache !== null) {
+    callback(_exophaseGamesCache);
+    return;
+  }
+  if (_exophaseGamesPending) {
+    _exophaseGamesCallbacks.push(callback);
+    return;
+  }
+
+  _exophaseGamesPending = true;
+  _exophaseGamesCallbacks = [callback];
+
+  function resolveAll(result) {
+    _exophaseGamesPending = false;
+    _exophaseGamesCache = result;
+    var cbs = _exophaseGamesCallbacks;
+    _exophaseGamesCallbacks = [];
+    for (var i = 0; i < cbs.length; i++)
+      cbs[i](result);
+  }
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE)
+        return;
+
+    console.log("Exophase HTTP status:", xhr.status);
+    console.log("Content-Type:", xhr.getResponseHeader("content-type"));
+    console.log("CF-Mitigated:", xhr.getResponseHeader("cf-mitigated"));
+
+    if (xhr.status !== 200) {
+    var mitigated = xhr.getResponseHeader("cf-mitigated");
+    var contentType = xhr.getResponseHeader("content-type");
+
+    console.log("HTTP:", xhr.status);
+    console.log("CF-Mitigated:", mitigated);
+    console.log("Content-Type:", contentType);
+
+    if (mitigated === "challenge") {
+        console.log("Cloudflare challenge ricevuta: non è una normale risposta API.");
+    }
+
+    resolveAll(null);
+    return;
+}
+
+
+    try {
+        resolveAll(data);
+    } catch (e) {
+        console.log("Exophase games parse error:", e);
+        resolveAll(null);
+    }
+};
+
+  xhr.onerror = function () { resolveAll(null); };
+  xhr.open("GET", "https://api.exophase.com/public/player/" + playerId + "/games?page=1");
+  xhr.setRequestHeader("Accept", "application/json");
+  xhr.send();
+}
+
+function fetchExophaseGames(playerId, callback) {
+  if (!playerId) { callback(null); return; }
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status !== 200) {
+      console.log("Exophase games HTTP error:", xhr.status);
+      callback(null);
+      return;
+    }
+    try {
+      var data = JSON.parse(xhr.responseText);
+      console.log("=== EXOPHASE GAMES (player " + playerId + ") ===");
+      console.log(JSON.stringify(data, null, 2));
+      callback(data);
+    } catch (e) {
+      console.log("Exophase games parse error:", e);
+      callback(null);
+    }
+  };
+  xhr.onerror = function () { console.log("Exophase games network error"); callback(null); };
+  xhr.open("GET", "https://api.exophase.com/public/player/" + playerId + "/games?page=1");
+  xhr.setRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+  xhr.setRequestHeader("Referer", "https://www.exophase.com/");
+  xhr.setRequestHeader("Accept", "application/json, text/plain, */*");
+  xhr.send();
+}
+
+function fetchExophaseEarned(playerId, gameId, callback) {
+  if (!playerId || !gameId) { callback(null); return; }
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status !== 200) {
+      console.log("Exophase earned HTTP error:", xhr.status);
+      callback(null);
+      return;
+    }
+    try {
+      var data = JSON.parse(xhr.responseText);
+      console.log("=== EXOPHASE EARNED (player " + playerId + ", game " + gameId + ") ===");
+      console.log(JSON.stringify(data, null, 2));
+      callback(data);
+    } catch (e) {
+      console.log("Exophase earned parse error:", e);
+      callback(null);
+    }
+  };
+  xhr.onerror = function () { console.log("Exophase earned network error"); callback(null); };
+  xhr.open("GET", "https://api.exophase.com/public/player/" + playerId + "/game/" + gameId + "/earned");
+  xhr.setRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+  xhr.setRequestHeader("Referer", "https://www.exophase.com/");
+  xhr.setRequestHeader("Accept", "application/json, text/plain, */*");
+  xhr.send();
+}
+
+function fetchExophaseAchievements(title, playerId, callback) {
+  if (!title || !playerId) { callback(null); return; }
+
+  var cleanTitle = _exophaseCleanTitle(title);
+
+  fetchExophaseGamesList(playerId, function (gamesData) {
+    if (!gamesData || !gamesData.success || !gamesData.games) {
+      callback(null);
+      return;
+    }
+
+    var matches = gamesData.games.filter(function (g) {
+      return g.meta && _exophaseCleanTitle(g.meta.title || "") === cleanTitle;
+    });
+
+    if (matches.length === 0) {
+      console.log("Exophase: nessun match per '" + cleanTitle + "'");
+      callback(null);
+      return;
+    }
+
+    if (matches.length > 1) {
+      console.log("Exophase: " + matches.length + " match per '" + cleanTitle + "' su piattaforme diverse:",
+        matches.map(function (m) { return m.meta.environment_slug + " (master_id " + m.master_id + ")"; }).join(", "));
+    }
+
+    var match = matches[0];
+    console.log("Exophase: uso master_id=" + match.master_id + " master_playerid=" + match.master_playerid + " (" + match.meta.environment_slug + ")");
+
+    // Test: proviamo con master_playerid (id specifico per quella piattaforma/gioco).
+    // Se risponde 404/vuoto, il prossimo tentativo sarà con il playerId "ombrello" originale.
+    var earnedXhr = new XMLHttpRequest();
+    earnedXhr.onreadystatechange = function () {
+      if (earnedXhr.readyState !== XMLHttpRequest.DONE) return;
+      if (earnedXhr.status !== 200) {
+        console.log("Exophase earned HTTP error:", earnedXhr.status, "(provato con master_playerid=" + match.master_playerid + ")");
+        callback(null);
+        return;
+      }
+      try {
+        var earnedData = JSON.parse(earnedXhr.responseText);
+        console.log("=== EXOPHASE EARNED (master_playerid " + match.master_playerid + ", game " + match.master_id + ") ===");
+        console.log(JSON.stringify(earnedData, null, 2));
+        callback(earnedData); // per ora restituiamo il raw, il mapping verso il modello lo facciamo dopo aver visto la struttura
+      } catch (e) {
+        console.log("Exophase earned parse error:", e);
+        callback(null);
+      }
+    };
+    earnedXhr.onerror = function () { callback(null); };
+    earnedXhr.open("GET", "https://api.exophase.com/public/player/" + match.master_playerid + "/game/" + match.master_id + "/earned");
+    xhr.setRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+    xhr.setRequestHeader("Referer", "https://www.exophase.com/");
+    xhr.setRequestHeader("Accept", "application/json, text/plain, */*");
+    earnedXhr.send();
+  });
+}
+
+function _rgbToHslEs5(r, g, b) {
+  var rn = r / 255.0, gn = g / 255.0, bn = b / 255.0;
+  var max = Math.max(rn, gn, bn);
+  var min = Math.min(rn, gn, bn);
+  var h = 0, s = 0, l = (max + min) / 2.0;
+  if (max !== min) {
+    var d = max - min;
+    s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);
+    if (max === rn) h = (gn - bn) / d + (gn < bn ? 6.0 : 0.0);
+    else if (max === gn) h = (bn - rn) / d + 2.0;
+    else h = (rn - gn) / d + 4.0;
+    h /= 6.0;
+  }
+  return { h: h, s: s, l: l };
+}
+
+function _hslToRgbEs5(h, s, l) {
+  function hue2rgb(p, q, t) {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  }
+  var r, g, b;
+  if (s === 0) {
+    r = g = b = l;
+  } else {
+    var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    var p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1 / 3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1 / 3);
+  }
+  return {
+    r: Math.max(0, Math.min(255, Math.round(r * 255))),
+    g: Math.max(0, Math.min(255, Math.round(g * 255))),
+    b: Math.max(0, Math.min(255, Math.round(b * 255)))
+  };
+}
+
+function _rgbToHexEs5(r, g, b) {
+  var arr = [r, g, b];
+  var hex = "#";
+  for (var i = 0; i < arr.length; i++) {
+    var v = Math.max(0, Math.min(255, Math.round(arr[i])));
+    var h = v.toString(16);
+    hex += (h.length === 1 ? "0" + h : h);
+  }
+  return hex;
+}
+
+function _relLumEs5(r, g, b) {
+  function chan(v) {
+    var c = v / 255.0;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  }
+  return 0.2126 * chan(r) + 0.7152 * chan(g) + 0.0722 * chan(b);
+}
+
+function _contrastRatioEs5(l1, l2) {
+  var a = Math.max(l1, l2);
+  var b = Math.min(l1, l2);
+  return (a + 0.05) / (b + 0.05);
+}
+
+// Computes adaptive HUD text & icon colors based on artwork primary color blended with bgOverlayOpacity
+function extractPrimaryHudColors(imageData, bgOverlayOpacity, isDarkTheme) {
+  var data = imageData && imageData.data ? imageData.data : null;
+  if (!data || data.length === 0) {
+    return isDarkTheme ? { text: "#FFFFFF", icon: "#F3F4F6" } : { text: "#111827", icon: "#1F2937" };
+  }
+
+  var buckets = {};
+  var totalPixels = 0;
+  var avgR = 0, avgG = 0, avgB = 0;
+
+  for (var i = 0; i < data.length; i += 4) {
+    var r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+    if (a < 120) continue;
+    totalPixels++;
+    avgR += r;
+    avgG += g;
+    avgB += b;
+    var key = (r >> 5) + "_" + (g >> 5) + "_" + (b >> 5);
+    if (!buckets[key]) buckets[key] = { count: 0, r: 0, g: 0, b: 0 };
+    buckets[key].count++;
+    buckets[key].r += r;
+    buckets[key].g += g;
+    buckets[key].b += b;
+  }
+
+  if (totalPixels === 0) {
+    return isDarkTheme ? { text: "#FFFFFF", icon: "#F3F4F6" } : { text: "#111827", icon: "#1F2937" };
+  }
+
+  var best = null;
+  var bestScore = -1;
+  var keys = Object.keys(buckets);
+  for (var k = 0; k < keys.length; k++) {
+    var bkt = buckets[keys[k]];
+    var mr = Math.round(bkt.r / bkt.count);
+    var mg = Math.round(bkt.g / bkt.count);
+    var mb = Math.round(bkt.b / bkt.count);
+    var hslB = _rgbToHslEs5(mr, mg, mb);
+    var score = bkt.count * (1 + hslB.s * 0.45);
+    if (score > bestScore) {
+      bestScore = score;
+      best = { r: mr, g: mg, b: mb };
+    }
+  }
+
+  var dom = best || {
+    r: Math.round(avgR / totalPixels),
+    g: Math.round(avgG / totalPixels),
+    b: Math.round(avgB / totalPixels)
+  };
+
+  var overlayA = Math.max(0, Math.min(1, Number(bgOverlayOpacity) || 0));
+  var baseR = isDarkTheme ? 34 : 245;
+  var baseG = isDarkTheme ? 36 : 246;
+  var baseB = isDarkTheme ? 42 : 250;
+  var effR = Math.round(dom.r * (1 - overlayA) + baseR * overlayA);
+  var effG = Math.round(dom.g * (1 - overlayA) + baseG * overlayA);
+  var effB = Math.round(dom.b * (1 - overlayA) + baseB * overlayA);
+
+  var bgLum = _relLumEs5(effR, effG, effB);
+  var hsl = _rgbToHslEs5(dom.r, dom.g, dom.b);
+  var isLightBackdrop = bgLum >= 0.25;
+
+  if (isLightBackdrop) {
+    // Neutral / white artwork -> crisp black ink
+    if (hsl.s < 0.16) {
+      return { text: "#111827", icon: "#111827" };
+    }
+    // Chromatic bright artwork (e.g. light blue -> rich dark blue)
+    var sat = Math.max(0.55, Math.min(0.92, hsl.s));
+    var lightL = 0.18;
+    var rgb = _hslToRgbEs5(hsl.h, sat, lightL);
+    while (_contrastRatioEs5(bgLum, _relLumEs5(rgb.r, rgb.g, rgb.b)) < 5.4 && lightL > 0.05) {
+      lightL -= 0.03;
+      rgb = _hslToRgbEs5(hsl.h, sat, lightL);
+    }
+    if (_contrastRatioEs5(bgLum, _relLumEs5(rgb.r, rgb.g, rgb.b)) < 4.8) {
+      return { text: "#0F172A", icon: "#0F172A" };
+    }
+    var darkHex = _rgbToHexEs5(rgb.r, rgb.g, rgb.b);
+    return { text: darkHex, icon: darkHex };
+  } else {
+    // Dark artwork -> bright white or luminous pastel same-hue text
+    if (hsl.s < 0.20) {
+      return { text: "#FFFFFF", icon: "#F3F4F6" };
+    }
+    var pSat = Math.min(0.55, Math.max(0.20, hsl.s * 0.65));
+    var pLight = 0.92;
+    var pRgb = _hslToRgbEs5(hsl.h, pSat, pLight);
+    if (_contrastRatioEs5(bgLum, _relLumEs5(pRgb.r, pRgb.g, pRgb.b)) < 5.5) {
+      return { text: "#FFFFFF", icon: "#F3F4F6" };
+    }
+    var lightHex = _rgbToHexEs5(pRgb.r, pRgb.g, pRgb.b);
+    return { text: lightHex, icon: lightHex };
+  }
+}

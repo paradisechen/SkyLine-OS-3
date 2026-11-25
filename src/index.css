@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'BIZ UDPGothic', 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  *:focus,
+  *:focus-visible,
+  input:focus,
+  textarea:focus,
+  button:focus,
+  select:focus {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Morisawa UD Shin Go NT typographic hierarchy matching Nintendo Switch 2 UI */
+.font-ud-thin {
+  font-family: var(--font-display);
+  font-weight: 300;
+}
+
+.font-ud-light {
+  font-family: var(--font-display);
+  font-weight: 300;
+}
+
+.font-ud-regular {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.font-ud-medium {
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+
+.font-ud-semibold {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.font-ud-bold {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes ns2-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-ns2-fade {
+  animation: ns2-fade-in 165ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes eshop-slide-next {
+  from {
+    opacity: 0;
+    transform: translateX(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes eshop-slide-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-eshop-next {
+  animation: eshop-slide-next 190ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-eshop-prev {
+  animation: eshop-slide-prev 190ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

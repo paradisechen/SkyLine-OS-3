@@ -1,0 +1,6 @@
+{
+  "name": "SkylineOS 2 — Retroid Pocket 5 Theme Studio",
+  "description": "Switch 2 inspired Pegasus Frontend theme simulator, artwork-adaptive color engine, and QML patch exporter calibrated for the Retroid Pocket 5 16:9 display.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
